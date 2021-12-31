@@ -2,13 +2,10 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
-<title>Статистика популярности языков acmp.ru</title>
+<title>Статистика популярности языков программирования на acmp.ru</title>
 </head>
 <body>
-<img src="all-attempts.png" alt="График популярности языков acmp.ru" style="max-width:99%" id="chart">
-<div>
-<a href="all-attempts.csv" download id="download">Скачать csv/xls файл с исходными данными</a>
-</div>
+<a href="accepted-unique-user-problem-complete-months.png" id="chart_link"><img src="accepted-unique-user-problem-complete-months.png" alt="График популярности языков программирования на acmp.ru" style="max-width: 99%" id="chart"></a>
 <script>
 
 const UNIQUE_USER_PROBLEM = 1;
@@ -89,8 +86,9 @@ function update() {
     if (completeMonths) {
         c = "-complete-months";
     }
-    document.getElementById("chart").src = a + b + c + ".png";
-    document.getElementById("download").setAttribute("href", a + b + ".csv");
+    var chartPng = a + b + c + ".png";
+    document.getElementById("chart").src = chartPng;
+    document.getElementById("chart_link").setAttribute("href", chartPng);
 }
 
 update();
@@ -132,5 +130,8 @@ if (completeMonths) {
 }
 
 </script>
+<div>
+<a href="https://github.com/BorisMenshikov/acmp-langs-data">История изменений и исходные данные графиков</a>
+</div>
 </body>
 </html>
