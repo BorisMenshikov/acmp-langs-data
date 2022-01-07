@@ -8,6 +8,10 @@
 <a href="accepted-unique-user-problem-complete-months.png" target="_top" id="chart_link"><img src="accepted-unique-user-problem-complete-months.png" alt="График популярности языков программирования на acmp.ru" style="max-width: 99%" id="chart"></a>
 <script>
 
+const RELATIVE = 1;
+const ABSOLUTE = 2;
+const ABSOLUTE_LOG = 3;
+
 const UNIQUE_USER_PROBLEM = 1;
 const ATTEMPTS = 2;
 const UNIQUE_USERS = 3;
@@ -50,6 +54,7 @@ function setBoolean(name, value) {
     }
 }
 
+var chartType = getInt123("chartType", RELATIVE);
 var statType = getInt123("statType", UNIQUE_USER_PROBLEM);
 var onlyAccepted = getBoolean("onlyAccepted", true);
 var completeMonths = getBoolean("completeMonths", true);
@@ -63,6 +68,7 @@ function showObject(o) {
 }
 
 function update() {
+    setInt("chartType", chartType);
     setInt("statType", statType);
     setBoolean("onlyAccepted", onlyAccepted);
     setBoolean("completeMonths", completeMonths);
@@ -83,17 +89,35 @@ function update() {
         throw "неожиданный statType " + statType;
     }
     var c = "";
-    if (completeMonths) {
-        c = "-complete-months";
+    if (chartType === RELATIVE) {
+        c = "";
+    } else if (chartType === ABSOLUTE) {
+        c = "-absolute";
+    } else if (chartType === ABSOLUTE_LOG) {
+        c = "-absolute-log";
+    } else {
+        throw "неожиданный chartType " + chartType;
     }
-    var chartPng = a + b + c + ".png";
+    var d = "";
+    if (chartType !== RELATIVE || completeMonths) {
+        d = "-complete-months";
+    }
+    var chartPng = a + b + c + d + ".png";
     document.getElementById("chart").src = chartPng;
     document.getElementById("chart_link").setAttribute("href", chartPng);
+    if (chartType == RELATIVE) {
+        document.getElementById("divCompleteMonths").style.display = "block";
+    } else {
+        document.getElementById("divCompleteMonths").style.display = "none";
+    }
 }
 
-update();
-
 </script>
+<div>
+<label><input type="radio" id="radioChartTypeRelative" name="chartType" onclick="chartType = RELATIVE; update(); return true;"> доли</label>
+<label><input type="radio" id="radioChartTypeAbsolute" name="chartType" onclick="chartType = ABSOLUTE; update(); return true;"> количество</label>
+<label><input type="radio" id="radioChartTypeAbsoluteLog" name="chartType" onclick="chartType = ABSOLUTE_LOG; update(); return true;"> количество, логарифмическая шкала</label>
+</div>
 <div>
 <label><input type="radio" id="radioStatTypeUserProblem" name="statType" onclick="statType = UNIQUE_USER_PROBLEM; update(); return true;"> уникальные пары пользователь-задача</label>
 <label><input type="radio" id="radioStatTypeAttempts" name="statType" onclick="statType = ATTEMPTS; update(); return true;"> попытки</label>
@@ -103,12 +127,23 @@ update();
 <label><input type="radio" id="radioOnlyAcceptedTrue" name="onlyAccepted" onclick="onlyAccepted = true; update(); return true;"> учитывать только accepted</label>
 <label><input type="radio" id="radioOnlyAcceptedFalse" name="onlyAccepted" onclick="onlyAccepted = false; update(); return true;"> все попытки</label>
 </div>
-<div>
+<div id="divCompleteMonths">
 <label><input type="radio" id="radioCompleteMonthsTrue" name="completeMonths" onclick="completeMonths = true; update(); return true;"> только полные месяцы</label>
 <label><input type="radio" id="radioCompleteMonthsFalse" name="completeMonths" onclick="completeMonths = false; update(); return true;"> включая последний неполный месяц</label>
 </div>
 <script>
 
+update();
+
+if (chartType === RELATIVE) {
+    document.getElementById("radioChartTypeRelative").checked = true;
+} else if (chartType === ABSOLUTE) {
+    document.getElementById("radioChartTypeAbsolute").checked = true;
+} else if (chartType === ABSOLUTE_LOG) {
+    document.getElementById("radioChartTypeAbsoluteLog").checked = true;
+} else {
+    throw "неожиданный chartType " + chartType;
+}
 if (onlyAccepted) {
     document.getElementById("radioOnlyAcceptedTrue").checked = true;
 } else {
