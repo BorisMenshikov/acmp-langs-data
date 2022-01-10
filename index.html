@@ -105,7 +105,7 @@ function update() {
     var chartPng = a + b + c + d + ".png";
     document.getElementById("chart").src = chartPng;
     document.getElementById("chart_link").setAttribute("href", chartPng);
-    if (chartType == RELATIVE) {
+    if (chartType === RELATIVE) {
         document.getElementById("divCompleteMonths").style.display = "block";
     } else {
         document.getElementById("divCompleteMonths").style.display = "none";
