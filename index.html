@@ -147,6 +147,7 @@ function update() {
 }
 
 </script>
+<div id="chartTypePanel" style="display: none">
 <div>
 <label><input type="radio" id="radioChartTypeRelative" name="chartType" onclick="chartType = RELATIVE; update(); return true;"> доли</label>
 <label><input type="radio" id="radioChartTypeAbsolute" name="chartType" onclick="chartType = ABSOLUTE; update(); return true;"> количество</label>
@@ -164,6 +165,10 @@ function update() {
 <div id="divCompleteMonths">
 <label><input type="radio" id="radioCompleteMonthsTrue" name="completeMonths" onclick="completeMonths = true; update(); return true;"> только полные месяцы</label>
 <label><input type="radio" id="radioCompleteMonthsFalse" name="completeMonths" onclick="completeMonths = false; update(); return true;"> включая последний неполный месяц</label>
+</div>
+</div>
+<div id="chartTypePanelAlt">
+Чтобы менять вид графика, включите JavaScript
 </div>
 <script>
 
@@ -197,6 +202,8 @@ if (completeMonths) {
 } else {
     document.getElementById("radioCompleteMonthsFalse").checked = true;
 }
+document.getElementById("chartTypePanelAlt").style.display = "none";
+document.getElementById("chartTypePanel").style.display = "block";
 
 </script>
 <div>
