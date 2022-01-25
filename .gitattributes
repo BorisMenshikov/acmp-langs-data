@@ -1,0 +1,5 @@
+*.html text
+*.csv text
+*.png -text
+.gitattributes text
+LICENSE text
