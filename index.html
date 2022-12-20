@@ -16,6 +16,7 @@ const ABSOLUTE_LOG = 3;
 const SUM = 4;
 const ABSOLUTE_WITHOUT_TOP3 = 5;
 const ANY_LANG = 6;
+const ABSOLUTE_WITHOUT_TOP5 = 7;
 
 const UNIQUE_USER_PROBLEM = 1;
 const ATTEMPTS = 2;
@@ -89,7 +90,7 @@ function setBoolean(name, value) {
 }
 
 var minComplexity = getInt("minComplexity", [-1, 30, 50], -1);
-var chartType = getInt("chartType", [RELATIVE, ABSOLUTE, ABSOLUTE_LOG, SUM, ABSOLUTE_WITHOUT_TOP3, ANY_LANG], RELATIVE);
+var chartType = getInt("chartType", [RELATIVE, ABSOLUTE, ABSOLUTE_LOG, SUM, ABSOLUTE_WITHOUT_TOP3, ANY_LANG, ABSOLUTE_WITHOUT_TOP5], RELATIVE);
 var statType = getInt("statType", [UNIQUE_USER_PROBLEM, ATTEMPTS, UNIQUE_USERS], UNIQUE_USER_PROBLEM);
 var onlyAccepted = getBoolean("onlyAccepted", true);
 var completeMonths = getBoolean("completeMonths", true);
@@ -141,6 +142,8 @@ function update() {
         c = "-absolute-without-top3";
     } else if (chartType === ANY_LANG) {
         c = "-any-lang";
+    } else if (chartType === ABSOLUTE_WITHOUT_TOP5) {
+        c = "-absolute-without-top5";
     } else {
         throw "неожиданный chartType " + chartType;
     }
@@ -172,6 +175,7 @@ function update() {
 <label><input type="radio" id="radioChartTypeSum" name="chartType" onclick="chartType = SUM; update(); return true;"> сумма</label>
 <label><input type="radio" id="radioChartTypeAbsoluteWithoutTop3" name="chartType" onclick="chartType = ABSOLUTE_WITHOUT_TOP3; update(); return true;"> количество без трёх популярных</label>
 <label><input type="radio" id="radioChartTypeAnyLang" name="chartType" onclick="chartType = ANY_LANG; update(); return true;"> на любом языке</label>
+<label><input type="radio" id="radioChartTypeAbsoluteWithoutTop5" name="chartType" onclick="chartType = ABSOLUTE_WITHOUT_TOP5; update(); return true;"> количество без пяти популярных</label>
 </div>
 <div>
 <label><input type="radio" id="radioStatTypeUserProblem" name="statType" onclick="statType = UNIQUE_USER_PROBLEM; update(); return true;"> уникальные пары пользователь-задача</label>
@@ -215,6 +219,8 @@ if (chartType === RELATIVE) {
     document.getElementById("radioChartTypeAbsoluteWithoutTop3").checked = true;
 } else if (chartType === ANY_LANG) {
     document.getElementById("radioChartTypeAnyLang").checked = true;
+} else if (chartType === ABSOLUTE_WITHOUT_TOP5) {
+    document.getElementById("radioChartTypeAbsoluteWithoutTop5").checked = true;
 } else {
     throw "неожиданный chartType " + chartType;
 }
